@@ -1,0 +1,331 @@
+"""ENGLISH GLOSSARY AND EXPLANATION
+KRD BIG S.A. – Front-End Recruitment Assignment: “Debt Exchange”
+Purpose: This file is an English translation and explanation of the Polish terminology and requirements. It is a reference glossary, NOT an instruction prompt.
+
+SOURCE PRIORITY
+- The main recruitment PDF is the primary source for the assignment requirements.
+- API_Methods.html is the source for API endpoints, request formats, response formats, and the Debt entity.
+- This glossary translates and explains the source terminology. It does not override either source.
+- If a detail is not specified in the sources, do not invent it.
+
+============================================================
+1. ASSIGNMENT OVERVIEW
+============================================================
+
+The assignment is to build a small web application called “Giełda wierzytelności” (English: “Debt Exchange” or “Debt Marketplace”). The application is intended to present debts/claims retrieved from an API prepared by the recruiting company.
+
+Required main features:
+- Display the TOP 10 debt records in the UI when the application starts.
+- Allow users to filter/search debt records using the specified criteria.
+- Allow users to sort the table by every column.
+- Allow sorting in ascending and descending order.
+- The default table state must be sorted in ascending order by the debtor's name.
+- Filtering uses the GetFilteredDebts API method, which has a built-in random delay. The UI must communicate that work is in progress, for example by displaying a loading indicator (loader), so that the user does not think the application has frozen.
+
+User interface and responsive design:
+- A visual mock-up is provided at:
+  https://rekrutacja-webhosting-it.krd.pl/Content/design.png
+- The application should work on mobile and desktop screen widths from 360 px to 1920 px.
+- The implementation approach for this responsive range is left to the candidate.
+- A close, pixel-perfect reproduction of the mock-up is encouraged if possible.
+- All displayed data should be formatted neatly and consistently.
+
+Technology requirements:
+- JavaScript ES6–ES8.
+- React JS.
+- LESS or SASS for stylesheets; the company says it uses LESS.
+- Do not use ready-made UI component/control libraries such as React-Bootstrap. UI controls must be implemented from scratch.
+- A ready-made project foundation such as create-react-app may be used, or the project may be set up from scratch.
+- The application must work in the latest versions of Chrome, Firefox, and Edge.
+
+Submission:
+- Submit a ZIP package that can be run in a browser. It should contain static assets (HTML, CSS, JavaScript, etc.) and source files such as LESS, JSX, or TS.
+- Alternatively, provide a link to the project hosted on GitHub.
+
+Optional bonus points:
+- TypeScript.
+- BEM methodology for CSS class naming.
+- Unit tests and/or integration tests.
+
+IMPORTANT RECRUITMENT CONDITION:
+The main PDF explicitly asks the candidate to complete the assignment independently, without AI-based tools, because the company wants to assess the candidate's own skills and individual approach. Using an AI model to implement the assignment may therefore violate the stated recruitment instructions. Do not hide this condition or claim that AI-generated work was completed independently. The user should confirm that AI assistance is permitted before using generated implementation work.
+
+============================================================
+2. API METHODS
+============================================================
+
+The API documentation page is provided separately as API_Methods.html.
+
+2.1 GetTopDebts
+- HTTP method: GET
+- Endpoint:
+  https://rekrutacja-webhosting-it.krd.pl/api/Recruitment/GetTopDebts
+- Purpose: returns the TOP 10 debt records in the database.
+- Successful response: HTTP status 200.
+- Response data: an array of Debt entities.
+- The API provides the TOP 10. The assignment does not require the client to invent its own TOP 10 ranking rule.
+
+2.2 GetFilteredDebts
+- HTTP method: POST
+- Endpoint:
+  https://rekrutacja-webhosting-it.krd.pl/api/Recruitment/GetFilteredDebts
+- Purpose: returns debt records matching a search phrase.
+- The phrase is searched in:
+  - debtor name (Name),
+  - tax identification number (NIP),
+  - case number (Number).
+- Matching is described as “contains the supplied string”.
+- Request body: JSON object with one property:
+  {"phrase": "search phrase"}
+- Content-Type header: application/json
+- If the supplied phrase is shorter than 3 characters:
+  - HTTP status: 405
+  - response data: none.
+- If the phrase contains at least 3 characters:
+  - HTTP status: 200
+  - response data: an array of Debt entities matching the criteria.
+- The main assignment PDF states that this method has a built-in random delay. Show a loading state while waiting for it.
+
+2.3 GetDebtsCount
+- HTTP method: GET
+- Endpoint:
+  https://rekrutacja-webhosting-it.krd.pl/api/Recruitment/GetDebtsCount
+- Purpose: returns the total number of debt records/cases in the database.
+- Successful response: HTTP status 200.
+- Response data: a single number (not an array of Debt objects).
+
+============================================================
+3. DEBT ENTITY – DATA FIELDS
+============================================================
+
+The API documentation defines the following fields for one Debt entity.
+
+Id
+- Type: number.
+- Meaning: unique technical identifier.
+- The documentation explicitly says it is NOT displayed in the UI.
+- It may still be useful internally to identify a record.
+
+Name
+- Type: string; maximum length 64 characters.
+- Meaning: debtor's name.
+- This is the field used for the required default ascending sort.
+- It is also searched by GetFilteredDebts.
+
+NIP
+- Type: string; maximum length 10 characters.
+- Meaning: the debtor's tax identification number (Polish: Numer Identyfikacji Podatkowej).
+- It is a string, not a number. Preserve its formatting and any leading zeros.
+- It is searched by GetFilteredDebts.
+
+Date
+- Type: date in ISO 8601 format.
+- Meaning: the date on which the obligation/debt was added.
+- The documentation does not show the exact serialized example returned by the live API.
+
+Value
+- Type: number.
+- Meaning: amount of the debt / outstanding indebtedness.
+- Do not confuse this with Price.
+
+Address
+- Type: string; maximum length 256 characters.
+- Meaning: debtor's residential address.
+
+DocumentType
+- Type: string; maximum length 16 characters.
+- Meaning: type of document forming the legal basis for the claim/obligation.
+
+Price
+- Type: number.
+- Meaning: asking/offer price for purchasing the debt claim.
+- Do not confuse this with Value: Value is the debt amount; Price is the offered purchase price of the claim.
+
+Number
+- Type: string; maximum length 32 characters.
+- Meaning: case number, described as the business identifier of the debt/claim.
+- It is searched by GetFilteredDebts.
+
+Field summary:
+- Id: technical record ID; do not show in the UI.
+- Name: debtor name.
+- NIP: debtor's tax identification number.
+- Date: date the obligation was added.
+- Value: debt amount.
+- Address: debtor's residential address.
+- DocumentType: type of legal document underlying the obligation.
+- Price: offered purchase price of the debt claim.
+- Number: case number / business identifier.
+
+Fields searched by GetFilteredDebts: Name, NIP, Number.
+The documentation does not say that GetFilteredDebts searches Id, Date, Value, Address, DocumentType, or Price.
+
+============================================================
+4. GLOSSARY OF POLISH TERMS
+============================================================
+
+Aplikacja – Application
+A program that runs in a browser. In this assignment, the application is the Debt Exchange interface.
+
+Wierzytelność – Debt claim / receivable
+A creditor's legal right to demand that a debtor performs an obligation, most commonly pays money. In the application, it is a record presented in the debt table. Depending on context, “claim” or “debt record” may be the clearest English translation.
+
+Dług – Debt
+Money or another obligation owed by a debtor. The source uses this term in the context of the records handled by the application.
+
+Zobowiązanie – Obligation / liability
+A duty owed by one party to another, commonly an obligation to pay. In this assignment it refers to the obligation associated with a debt record.
+
+Wierzyciel – Creditor
+A person or entity entitled to receive payment or performance of an obligation.
+
+Dłużnik – Debtor
+A person or entity that owes money or must perform an obligation. The table's Name field is the debtor's name.
+
+Giełda wierzytelności – Debt Exchange / Debt Marketplace
+The name of the requested application. It presents debt claims that may be available for purchase.
+
+TOP 10 – Top ten records
+The ten debt records returned by GetTopDebts. The documentation does not explain the ranking algorithm or the ordering criterion.
+
+Encja – Entity
+A structured data object representing a domain concept. Here, Debt is the entity representing one debt record.
+
+Pole encji – Entity field / property
+One value stored in an entity, such as Name, NIP, or Value.
+
+Metoda API – API method / endpoint operation
+An operation exposed by the API, such as retrieving the top ten records or searching records.
+
+Filtrowanie – Filtering
+Restricting the displayed records to those that meet a condition. In this task, the API search method uses one phrase and checks Name, NIP, and Number.
+
+Wyszukiwanie – Search
+Looking for records that match a supplied phrase. In the API documentation, the search is performed by GetFilteredDebts.
+
+Kryterium filtrowania – Filter criterion
+A condition used to decide which records match. The API documentation specifies the searchable fields: Name, NIP, and Number.
+
+Sortowanie – Sorting
+Arranging records according to the values in a selected column.
+
+Rosnąco – Ascending
+Ordering from lower to higher values; for text, normally alphabetical order from A to Z.
+
+Malejąco – Descending
+Ordering from higher to lower values; for text, normally reverse alphabetical order from Z to A.
+
+Kolumna – Column
+A vertical section of a table that displays one property of each record.
+
+Stan domyślny – Default state
+The initial state of the application or table. Here, the table must initially be sorted by Name in ascending order.
+
+Loader / wskaźnik ładowania – Loading indicator / spinner
+A UI element that tells the user that an operation is still in progress.
+
+Losowe opóźnienie – Random delay
+An unpredictable wait built into an API method. It is not necessarily an error. The UI should visibly indicate that it is waiting.
+
+Makieta / projekt graficzny – Mock-up / visual design
+A visual reference showing how the application should look. The main PDF links to design.png.
+
+Responsywność – Responsiveness
+Adapting the interface layout to different viewport sizes. Required width range: 360–1920 px.
+
+Pixel perfect – Pixel-perfect reproduction
+A close visual match to the reference design, including layout, dimensions, spacing, colors, typography, and details.
+
+Frontend / Front-End – Front end
+The part of an application that runs in the user's browser and handles the interface and user interactions.
+
+JavaScript ES6–ES8
+Generations of the JavaScript language specification introducing modern syntax and language features. The assignment requires JavaScript in this range.
+
+React JS
+A JavaScript library for building user interfaces. It is required for this assignment.
+
+LESS
+A CSS preprocessor that extends CSS with features such as variables and nesting. The company says it uses LESS.
+
+SASS – Syntactically Awesome Style Sheets
+A CSS preprocessor and an alternative to LESS. The assignment accepts LESS or SASS.
+
+Preprocessor – CSS preprocessor
+A tool/language that transforms an extended stylesheet syntax into standard CSS understood by browsers.
+
+UI – User Interface
+The visible part of the application that the user interacts with.
+
+Component – React component
+A reusable, self-contained part of a React interface, such as a table, filter field, or button.
+
+Ready-made UI components / controls – Prebuilt UI components or controls
+Interface elements supplied by external component libraries. The assignment prohibits using such libraries (for example React-Bootstrap); implement the UI controls yourself. This does not prohibit writing your own React components.
+
+React-Bootstrap
+A library of ready-made React components based on Bootstrap. It is explicitly given as an example of a library not to use.
+
+create-react-app
+A preconfigured tool/environment for starting a React project. Its use is allowed but not mandatory.
+
+TypeScript
+A language based on JavaScript that adds static typing. It is optional and can earn bonus points; it is not mandatory.
+
+JSX
+A syntax extension commonly used with React to describe UI structure inside JavaScript/TypeScript code.
+
+BEM – Block Element Modifier
+A CSS class naming methodology that structures names into blocks, elements, and modifiers. It is optional and can earn bonus points.
+
+Test jednostkowy – Unit test
+A test that checks a small isolated unit of code, such as a sorting function.
+
+Test integracyjny – Integration test
+A test that checks whether multiple parts work together, such as a filter form, table, and API interaction.
+
+Przeglądarka – Browser
+A program used to access web applications. The latest Chrome, Firefox, and Edge versions must be supported.
+
+Static assets – Static files/assets
+Files needed to run the browser application, such as HTML, CSS, JavaScript, images, and fonts.
+
+ZIP – ZIP archive
+A compressed package containing the application files for submission.
+
+GitHub
+A service for hosting source-code repositories. The assignment allows submitting a GitHub project link as an alternative to a ZIP archive.
+
+============================================================
+5. IMPORTANT DISTINCTIONS AND SOURCE LIMITATIONS
+============================================================
+
+- Value means the debt amount.
+- Price means the offered purchase price of the debt claim.
+- Name means the debtor's name.
+- Number means the case number, not the technical Id.
+- Id is technical and must not be displayed in the UI.
+- NIP is a string. Do not parse it as a numeric value.
+- GetTopDebts returns the TOP 10; do not invent a ranking algorithm.
+- GetFilteredDebts searches Name, NIP, and Number only, according to the documentation.
+- GetDebtsCount returns one number, not a list of Debt objects.
+- The main PDF requires ascending default sorting by debtor Name.
+- TypeScript, BEM, and tests are bonus items, not mandatory requirements.
+- Ready-made UI component libraries are prohibited, but custom React components are allowed.
+
+The source documents do NOT specify:
+- the exact TOP 10 ranking algorithm;
+- a sample complete JSON Debt response;
+- whether search is case-sensitive;
+- whether search ignores Polish diacritics;
+- how whitespace is normalized;
+- the exact duration/range of the random API delay;
+- the currency or decimal precision for Value and Price;
+- whether Date includes a time component in actual API responses;
+- additional authentication, CORS, rate limits, or headers beyond those explicitly documented;
+- whether the API has extra fields not listed in the page.
+
+Do not present any of these unspecified details as facts. Verify them against the actual API if necessary, or clearly label assumptions.
+
+END OF GLOSSARY
+"""

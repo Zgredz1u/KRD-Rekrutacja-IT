@@ -1,0 +1,39 @@
+@import '../styles/variables.less';
+
+.error {
+  border: 1px solid @red;
+  border-left: 4px solid @red;
+  border-radius: 2px;
+  background: #fff5f6;
+  padding: 16px 18px;
+  margin-bottom: 20px;
+
+  &__message {
+    margin: 0 0 12px;
+    color: @red-darker;
+    font-size: 14px;
+    word-break: break-word;
+  }
+
+  &__retry {
+    padding: 8px 18px;
+    border: none;
+    border-radius: 2px;
+    background: @red;
+    color: @white;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    cursor: pointer;
+
+    &:hover {
+      background: @red-dark;
+    }
+
+    &:focus-visible {
+      outline: 2px solid @navy;
+      outline-offset: 2px;
+    }
+  }
+}

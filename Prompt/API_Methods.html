@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html><head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width">
+    <title>KRD BIG SA - Rekrutacja IT Webhosting</title>
+    <link href="KRD%20BIG%20SA%20-%20Rekrutacja%20IT%20Webhosting_files/css_bd6F.css" rel="stylesheet">
+
+    <script src="KRD%20BIG%20SA%20-%20Rekrutacja%20IT%20Webhosting_files/jquery_bd6F.js"></script>
+
+
+    
+
+
+    <!--
+
+     .----------------.  .----------------.  .----------------.   .----------------.  .----------------.
+    | .--------------. || .--------------. || .--------------. | | .--------------. || .--------------. |
+    | |  ___  ____   | || |  _______     | || |  ________    | | | |     _____    | || |  _________   | |
+    | | |_  ||_  _|  | || | |_   __ \    | || | |_   ___ `.  | | | |    |_   _|   | || | |  _   _  |  | |
+    | |   | |_/ /    | || |   | |__) |   | || |   | |   `. \ | | | |      | |     | || | |_/ | | \_|  | |
+    | |   |  __'.    | || |   |  __ /    | || |   | |    | | | | | |      | |     | || |     | |      | |
+    | |  _| |  \ \_  | || |  _| |  \ \_  | || |  _| |___.' / | | | |     _| |_    | || |    _| |_     | |
+    | | |____||____| | || | |____| |___| | || | |________.'  | | | |    |_____|   | || |   |_____|    | |
+    | |              | || |              | || |              | | | |              | || |              | |
+    | '--------------' || '--------------' || '--------------' | | '--------------' || '--------------' |
+     '----------------'  '----------------'  '----------------'   '----------------'  '----------------'
+
+    -->
+
+</head>
+<body style="">
+    <div class="navbar navbar-inverse navbar-fixed-top">
+        <div class="container">
+            <div class="navbar-header">
+                
+                <a class="navbar-brand" href="https://rekrutacja-webhosting-it.krd.pl/">KRD BIG SA - Rekrutacja IT Webhosting</a>
+            </div>
+            
+        </div>
+    </div>
+    <div class="container body-content">
+        <hr>
+        
+
+
+<br>
+<h1>Metody dostępne w API</h1>
+<br>
+
+
+
+<h3>1. GetTopDebts</h3>
+<table>
+    <tbody><tr>
+        <td>Opis</td>
+        <td>Zwraca TOP10 wierzytelności w bazie</td>
+    </tr>
+    <tr>
+        <td>URL</td>
+        <td>https://rekrutacja-webhosting-it.krd.pl/api/Recruitment/GetTopDebts</td>
+    </tr>
+    <tr>
+        <td>Typ</td>
+        <td>GET</td>
+    </tr>
+    <tr>
+        <td>Zwracana odpowiedź</td>
+        <td>
+            Status: 200<br>
+            Dane: tablica wierzytelności (encja Debt)
+        </td>
+    </tr>
+</tbody></table>
+
+
+<h3>2. GetFilteredDebts</h3>
+<table>
+    <tbody><tr>
+        <td>Opis</td>
+        <td>Zwraca wierzytelności, które spełniają kryteria wyszukiwania (NIP, numer sprawy lub nazwa dłużnika zawiera podany ciąg)</td>
+    </tr>
+    <tr>
+        <td>URL</td>
+        <td>https://rekrutacja-webhosting-it.krd.pl/api/Recruitment/GetFilteredDebts</td>
+    </tr>
+    <tr>
+        <td>Typ</td>
+        <td>POST</td>
+    </tr>
+    <tr>
+        <td>Parametry wejściowe</td>
+        <td>obiekt {phrase: "poszukiwana fraza"} w formacie JSON</td>
+    </tr>
+    <tr>
+        <td>Content-type</td>
+        <td>application/json</td>
+    </tr>
+    <tr>
+        <td>Zwracana odpowiedź</td>
+        <td>
+            <b>W przypadku podania ciągu krótszego niż 3 znaki:</b><br>
+            Status: 405<br>
+            Dane: brak<br><br>
+
+            <b>W przypadku podania ciągu o długości co najmniej 3 znaków:</b><br>
+            Status: 200<br>
+            Dane: tablica wierzytelności (encja Debt) spełniających kryteria wyszukiwania
+        </td>
+    </tr>
+</tbody></table>
+
+
+<h3>3. GetDebtsCount</h3>
+<table>
+    <tbody><tr>
+        <td>Opis</td>
+        <td>Zwraca liczbę wszystkich wierzytelności w bazie</td>
+    </tr>
+    <tr>
+        <td>URL</td>
+        <td>https://rekrutacja-webhosting-it.krd.pl/api/Recruitment/GetDebtsCount</td>
+    </tr>
+    <tr>
+        <td>Typ</td>
+        <td>GET</td>
+    </tr>
+    <tr>
+        <td>Zwracana odpowiedź</td>
+        <td>
+            Status: 200<br>
+            Dane: liczba spraw (number)
+        </td>
+    </tr>
+</tbody></table>
+
+
+<br>
+<br>
+<hr>
+<br>
+
+
+<h1>Encja wierzytelności (Debt)</h1>
+<br>
+<ul>
+    <li>
+        <div>Id</div>
+        <div>Opis: unikalny identyfikator techniczny (nieprezentowany na UI)</div>
+        <div>Typ: number</div>
+    </li>
+    <li>
+        <div>Name</div>
+        <div>Opis: nazwa dłużnika</div>
+        <div>Typ: string (max. 64 znaki)</div>
+    </li>
+    <li>
+        <div>NIP</div>
+        <div>Opis: numer identyfikacyjny podatkowej dłużnika</div>
+        <div>Typ: string (max. 10 znaków)</div>
+    </li>
+    <li>
+        <div>Date</div>
+        <div>Opis: data dodania zobowiązania</div>
+        <div>Typ: data (format ISO 8601)</div>
+    </li>
+    <li>
+        <div>Value</div>
+        <div>Opis: wysokość zadłużenia</div>
+        <div>Typ: number</div>
+    </li>
+    <li>
+        <div>Address</div>
+        <div>Opis: adres zamieszkania dłużnika</div>
+        <div>Typ: string (max. 256 znaków)</div>
+    </li>
+    <li>
+        <div>DocumentType</div>
+        <div>Opis: typ dokumentu stanowiący podstawę prawną</div>
+        <div>Typ: string (max. 16 znaków)</div>
+    </li>
+    <li>
+        <div>Price</div>
+        <div>Opis: ofertowa cena wykupu wierzytelności</div>
+        <div>Typ: number</div>
+    </li>
+    <li>
+        <div>Number</div>
+        <div>Opis: numer sprawy (biznesowy identyfikator wierzytelności)</div>
+        <div>Typ: string (max. 32 znaki)</div>
+    </li>
+</ul>
+
+<br>
+
+        <hr>
+        <footer>
+            <p>© 2026 - KRD BIG SA</p>
+        </footer>
+    </div>
+
+    
+
+
+</body></html>

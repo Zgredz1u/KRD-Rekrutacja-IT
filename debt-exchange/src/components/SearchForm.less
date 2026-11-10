@@ -1,0 +1,94 @@
+@import '../styles/variables.less';
+
+.search {
+  &__label {
+    display: block;
+    color: @white;
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    margin-bottom: 10px;
+  }
+
+  &__row {
+    display: flex;
+    align-items: stretch;
+    gap: 8px;
+  }
+
+  &__input {
+    flex: 1 1 auto;
+    min-width: 0;
+    height: 44px;
+    padding: 0 14px;
+    border: 1px solid @white;
+    border-radius: 2px;
+    background: @white;
+    color: @navy;
+    font-size: 15px;
+    font-family: inherit;
+    outline: none;
+
+    &::placeholder {
+      color: #9aa5ad;
+    }
+
+    &:focus {
+      box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.35);
+    }
+
+    &:disabled {
+      background: #e8e8e8;
+      color: #777;
+    }
+  }
+
+  &__button {
+    flex: 0 0 auto;
+    height: 44px;
+    padding: 0 28px;
+    border: none;
+    border-radius: 2px;
+    background: @red;
+    color: @white;
+    font-size: 14px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: background 0.15s ease;
+
+    &:hover:not(:disabled) {
+      background: @red-dark;
+    }
+
+    &:active:not(:disabled) {
+      background: @red-darker;
+    }
+
+    &:focus-visible {
+      outline: 3px solid rgba(255, 255, 255, 0.6);
+      outline-offset: 2px;
+    }
+
+    &:disabled {
+      background: @red-darker;
+      opacity: 0.7;
+      cursor: not-allowed;
+    }
+  }
+}
+
+// Narrow screens: keep the button usable, let the input shrink.
+@media (max-width: 480px) {
+  .search {
+    &__row {
+      gap: 6px;
+    }
+
+    &__button {
+      padding: 0 16px;
+    }
+  }
+}
